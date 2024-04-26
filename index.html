@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #container{
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        #container>.innerContainer{
+            display: flex;
+            gap: 20px;
+            flex-direction: column;
+            align-items: center;
+            /* justify-content: center; */
+            width: auto;
+        }
+
+        #container>.innerContainer>button{
+            width: 150px;
+            height: 40px;
+            font-size: 20px;
+        }
+
+        #container>.innerContainer>div{
+            display: flex;
+            /* gap: 10px; */
+            justify-content: start;
+            align-items: center;
+            width: 700px;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div id="container">
+        <div class="innerContainer">
+            <button>Fetch Todos</button>
+            
+        </div>
+    </div>
+</body>
+<script>
+    let fetchBTN = document.querySelector("#container>.innerContainer>button")
+    fetchBTN.addEventListener("click", function(){
+        let container = document.querySelector("#container")
+
+        let data = fetch("https://jsonplaceholder.typicode.com/todos")              //Fetching data
+        
+        data.then(function (res){
+            res = res.json()                            //convert in json format
+            return res
+        })
+        .then(function(res){
+            res.forEach(function(ele,i){
+                let innerContainer = document.querySelector("#container>.innerContainer")       
+                let div = document.createElement("div")                         // create div for each title
+                let h1 =  document.createElement("h2")                          // create heading tag for each title
+                let input = document.createElement("input")                     // create checkbox
+                input.type = "checkbox"                 
+
+                h1.innerText = ele.title                                            
+                div.append(h1,input)                                            //append data in div
+                innerContainer.append(div)                                      // append div in container
+
+                // console.log(ele)
+            })
+        })
+    })
+    
+</script>
+</html>
